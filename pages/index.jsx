@@ -5,81 +5,67 @@ import { useMoralis, useNFTBalances, useMoralisWeb3Api } from "react-moralis";
 import CardList from "../components/CardList";
 
 export default function Home() {
-	const Web3Api = useMoralisWeb3Api();
-
-	const { isAuthenticated, authenticate, user } = useMoralis();
-	const { getNFTBalances, data } = useNFTBalances();
-	const [nftList, setNftList] = useState();
-	const { isInitialized } = useMoralis();
-
-	console.log(isAuthenticated);
-
-	const fetchNFTs = async () => {
-		// window.web3 = await Moralis.enable();
-		// get polygon NFTs for address
-		// const options = {
-		// 	chain: "rinkeby",
-		// 	address: "0xe52Fb55EE3164Ff93eb6a40Df60b8479e7A8B732",
-		// };
-		// const nftList = await Web3Api.account.getNFTs(options);
-		// console.log(nftLisst);
-		if (isInitialized) {
-			getNFTBalances({
-				params: {
-					chain: "rinkeby",
-					address: "0xe52Fb55EE3164Ff93eb6a40Df60b8479e7A8B732",
-				},
-			});
-		}
-		console.log(data);
-		console.log("fetchNFTsが呼び出されました");
-	};
-
-	useEffect(() => {
-		// const fetchNFTs = async () => {
-		// window.web3 = await Moralis.enable();
-		// get polygon NFTs for address
-		// const options = {
-		// 	chain: "rinkeby",
-		// 	address: "0xe52Fb55EE3164Ff93eb6a40Df60b8479e7A8B732",
-		// };
-		// const nftList = await Web3Api.account.getNFTs(options);
-		// console.log(nftList);
-		// getNFTBalances({
-		// 	params: {
-		// 		chain: "rinkeby",
-		// 		address: "0xe52Fb55EE3164Ff93eb6a40Df60b8479e7A8B732",
-		// 	},
-		// });
-		// console.log(data);
-		// console.log("fetchNFTsが呼び出されました");
-		// };
-		// getNFTBalances({
-		// 	params: {
-		// 		chain: "rinkeby",
-		// 		address: "0xe52Fb55EE3164Ff93eb6a40Df60b8479e7A8B732",
-		// 	},
-		// });
-		// console.log(data);
-
-		fetchNFTs();
-
-		console.log("useEffectが呼び出されました");
-		setNftList(data);
-	}, [isAuthenticated]);
-
+	const {
+		isAuthenticated,
+		user,
+		isAuthenticating,
+		authenticate,
+		logout,
+		isLoggingOut,
+	} = useMoralis();
+	if (!isAuthenticated) {
+		return (
+			<div className="h-screen w-screen bg-white">
+				<div className="flex justify-between items-center px-10 h-[60px] border-b text-lg text-gray-700">
+					<div className="font-Inter-Medium">xBatter</div>
+					<a
+						className=" rounded-full bg-gray-100 hover:bg-gray-200 px-4 py-1 text-sm text-gray-500 cursor-pointer"
+						onClick={authenticate}
+					>
+						connect
+					</a>
+				</div>
+				<div className="flex justify-center items-center h-full w-full bg-slate-100">
+					<div className="pb-20 font-Inter-Medium">
+						<div className="text-5xl text-center pb-6 font-bold">
+							Your NFT to the NFT you want.
+						</div>
+						<div className="text-lg">
+							xBatter is a barter gas price{" "}
+							<span className=" text-blue-600">optimization</span> protocol and
+							an ownership <span className=" text-blue-600">optimization</span>{" "}
+							protocol
+						</div>
+						<div className="flex justify-center mt-6">
+							<a
+								className="px-6 py-3 bg-gray-900 hover:bg-gray-700 rounded-md text-white text-sm cursor-pointer"
+								onClick={authenticate}
+							>
+								Get started
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 	return (
-		<div>
-			<div className="flex justify-between items-center h-16 bg-gray-100 px-10">
-				<div>xbatter</div>
+		<div className="h-screen w-screen bg-white">
+			<div className="flex justify-between items-center px-10 h-[60px] border-b text-lg text-gray-700">
+				<div className="font-Inter-Medium">xBatter</div>
 				<a
-					className="border rounded-full px-6 py-2 bg-white font-bold"
-					onClick={authenticate}
+					className=" rounded-full bg-gray-100 hover:bg-gray-200 px-4 py-1 text-sm text-gray-500 cursor-pointer"
+					onClick={logout}
 				>
-					connect wallet
+					disconnect
 				</a>
 			</div>
-			<CardList data={nftList} />
+			<div className="flex justify-center items-center h-full w-full bg-slate-100">
+				<div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
 		</div>
 	);
 }
