@@ -5,7 +5,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 const Card = ({ image, c_name, name, price, rentalFlg }) => {
 	const iconStyle = { fontSize: 16 };
 	return (
-		<div className="p-3 bg-white rounded-lg bg-opacity-70 shadow-md">
+		<div className="p-3 bg-white rounded-lg bg-opacity-70 shadow-md hover:shadow-lg">
 			{image ? (
 				<Image
 					src={image}
@@ -40,7 +40,7 @@ const Card = ({ image, c_name, name, price, rentalFlg }) => {
 				)}
 
 				<div className="flex justify-end">
-					<span className="py-1 px-4  font-bold rounded-full text-white text-xs bg-green-800 border">
+					<span className="py-1 px-4  font-bold rounded-full  text-xs bg-gray-100 hover:bg-gray-200 text-gray-500 border cursor-pointer">
 						Exchange
 					</span>
 				</div>
