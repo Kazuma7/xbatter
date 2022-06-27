@@ -9,6 +9,8 @@ import collectionList from "../components/collectionList.json";
 export default function Home() {
 	const [isAstar, setIsAstar] = useState();
 	const [collectionNo, setCollectionNo] = useState(0);
+	const [lockItemList, setLockItemList] = useState();
+	const [yourItem, setYourItem] = useState();
 	const {
 		isAuthenticated,
 		user,
