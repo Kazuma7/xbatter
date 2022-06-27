@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.1;
+pragma solidity ^0.8.9;
 import "hardhat/console.sol";
 
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
@@ -29,7 +29,7 @@ Ownable
     function deploy(address _spotAddr) external returns (address) {
         require(!_exists(_spotAddr), "ticket exist");
         IERC721Spot spot = IERC721Spot(_spotAddr);
-        require(spot.supportsInterface(0x780e9d63) && spot.supportsInterface(0x5b5e139f), "interface not support");
+        require(spot.supportsInterface(0x80ac58cd), "interface not support");
 
         ERC721Ticket _contract = new ERC721Ticket(
             string(abi.encodePacked(spot.name(), " Ticket")),
