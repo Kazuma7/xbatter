@@ -5,7 +5,7 @@ import { useMoralis, useNFTBalances, useMoralisWeb3Api } from "react-moralis";
 import { ethers } from "ethers";
 import CollectionDetail from "../components/CollectionDetail";
 import collectionList from "../components/collectionList.json";
-const contractAddress = process.env.NEXT_PUBLIC_EXCHANGE;
+const contractAddress = "0x54F7118955cc7669af59e894482829C5A8f10a4e";
 
 export default function Home() {
   const [isAstar, setIsAstar] = useState();
@@ -20,6 +20,8 @@ export default function Home() {
     logout,
     isLoggingOut,
   } = useMoralis();
+  const { getNFTBalances, data } = useNFTBalances();
+  console.log(contractAddress);
 
   useEffect(() => {
     const addChain = async () => {
@@ -97,6 +99,7 @@ export default function Home() {
           collectionList={collectionList}
           selCollectionNo={collectionNo}
           changeState={setCollectionNo}
+          data={data}
         />
       </div>
     );
