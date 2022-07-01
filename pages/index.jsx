@@ -8,10 +8,12 @@ import collectionList from "../components/collectionList.json";
 const contractAddress = "0x54F7118955cc7669af59e894482829C5A8f10a4e";
 
 export default function Home() {
+  const Web3Api = useMoralisWeb3Api();
   const [isAstar, setIsAstar] = useState();
   const [collectionNo, setCollectionNo] = useState(0);
   const [lockItemList, setLockItemList] = useState();
-  const [yourItem, setYourItem] = useState();
+  const [yourItemList, setYourItemList] = useState();
+  const [ctrItemList, setCtrItemList] = useState();
   const {
     isAuthenticated,
     user,
@@ -19,6 +21,7 @@ export default function Home() {
     authenticate,
     logout,
     isLoggingOut,
+    isInitialized,
   } = useMoralis();
   const { getNFTBalances, data } = useNFTBalances();
   console.log(contractAddress);
@@ -39,14 +42,38 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    getNFTBalances({
-      params: {
+    const fetchNFT = async () => {
+      const options = {
         chain: "rinkeby",
         address: contractAddress,
-      },
-    });
-    console.log(data);
-  }, [isAuthenticated]);
+      };
+      const polygonNFTs = await Web3Api.account.getNFTs(options);
+      setCtrItemList(polygonNFTs);
+    };
+
+    const fetchNFTyours = async () => {
+      const options = {
+        chain: "rinkeby",
+        address: user?.get("ethAddress"),
+      };
+      const tmpCtrItemList = await Web3Api.account.getNFTs(options);
+      setYourItemList(tmpCtrItemList);
+    };
+
+    if (isInitialized) {
+      fetchNFT();
+      fetchNFTyours();
+    }
+
+    // getNFTBalances({
+    //   params: {
+    //     chain: "rinkeby",
+    //     address: user?.get("ethAddress"),
+    //   },
+    // });
+    // console.log(data);
+    // setYourItem(data)
+  }, [isInitialized]);
 
   if (!isAuthenticated) {
     return (
@@ -99,7 +126,8 @@ export default function Home() {
           collectionList={collectionList}
           selCollectionNo={collectionNo}
           changeState={setCollectionNo}
-          data={data}
+          ctrItemList={ctrItemList}
+          yourItemList={yourItemList}
         />
       </div>
     );

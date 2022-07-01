@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import exchangeAbi from "..contracts/ERC721Exchange";
+import exchangeAbi from "../contracts/ERC721Exchange.json";
 const contractAddress = "0x54F7118955cc7669af59e894482829C5A8f10a4e";
 
 const Card = ({ image, c_name, name, price, rentalFlg }) => {
@@ -11,9 +11,9 @@ const Card = ({ image, c_name, name, price, rentalFlg }) => {
     const accounts = await provider.send("eth_requestAccounts", []);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(contractAddress, exchangeAbi, signer);
-    
-		//approve関数を叩く
-		//withdraw関数を叩く
+
+    //approve関数を叩く
+    //withdraw関数を叩く
   };
   return (
     <div className="p-3 bg-white rounded-lg bg-opacity-70 shadow-md hover:shadow-lg">

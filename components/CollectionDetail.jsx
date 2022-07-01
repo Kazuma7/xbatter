@@ -6,11 +6,13 @@ const CollectionDetail = ({
   changeState,
   collectionList,
   selCollectionNo,
-  data,
+  ctrItemList,
+  yourItemList,
 }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
-  const stakeNftAmount = 10;
-  const yourTicketAmount = 10;
+  console.log(ctrItemList.result.length);
+  const stakeNftAmount = ctrItemList.result.length;
+  const yourTicketAmount = yourItemList.result.length;
 
   const onChnageMenu = () => {
     if (menuIsOpen == false) {
@@ -21,7 +23,7 @@ const CollectionDetail = ({
   };
   return (
     <div className=" w-full bg-slate-100 h-full">
-      <div className="flex w-full">
+      <div className="flex w-full bg-slate-100">
         <div className="w-96 ">
           <Collection
             changeState={changeState}
@@ -30,8 +32,8 @@ const CollectionDetail = ({
           />
         </div>
         {menuIsOpen ? (
-          <div className="w-full ">
-            <div className="flex justify-between items-center mx-10 my-10">
+          <div className="w-full  ">
+            <div className="flex justify-between items-center mx-10 my-10 ">
               <div className=" text-3xl font-bold">
                 {collectionList[selCollectionNo].cName}
               </div>
@@ -57,7 +59,7 @@ const CollectionDetail = ({
                 </div>
               </div>
             </div>
-            <CardList data={data} />
+            <CardList data={ctrItemList} />
 
             <div className="flex justify-between bg-slate-100 px-10 py-10">
               <div>Creator</div>
@@ -71,7 +73,7 @@ const CollectionDetail = ({
           <div className="w-full ">
             <div className="flex justify-between items-center mx-10 my-10">
               <div className=" text-3xl font-bold">
-                Yours "{collectionList[selCollectionNo].cName}"
+                Yours &quot;{collectionList[selCollectionNo].cName}&quot;
               </div>
               <button
                 className=" px-4 rounded-md bg-gray-400 font-bold text-white py-2  shadow-md"
@@ -86,7 +88,7 @@ const CollectionDetail = ({
                 💡 Select your NFT you would like to exchange
               </div>
             </div>
-            <CardList />
+            <CardList data={yourItemList} />
 
             <div className="flex justify-between bg-slate-100 px-10 py-10">
               <div>Creator</div>
