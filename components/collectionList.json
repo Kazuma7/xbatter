@@ -1,17 +1,7 @@
 [
 	{
-		"cName": "Astar Neo Kabuto",
-		"cAddr": "0x0000123444",
-		"cTokenId": "1"
-	},
-	{
-		"cName": "VeryLongAnimals",
-		"cAddr": "0x0000123444",
-		"cTokenId": "1"
-	},
-	{
-		"cName": "Astar Cats",
-		"cAddr": "0x0000123444",
+		"cName": "Sample NFT",
+		"cAddr": "0xea03e1b9022770b4C9b061be263d601F1FD1E22e",
 		"cTokenId": "1"
 	}
 ]
