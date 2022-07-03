@@ -3,43 +3,37 @@ import { useMoralis, useNFTBalances, useMoralisWeb3Api } from "react-moralis";
 import { ethers } from "ethers";
 import CollectionDetail from "../components/CollectionDetail";
 import collectionList from "../components/collectionList.json";
-const contractAddress = "0x63e617726AB4172D48168ffb510F6571Ac2b5247";
+const exchangeContractAddr = process.env.NEXT_PUBLIC_EXCHANGE_CONTRACT;
 
 export default function Home() {
 	const Web3Api = useMoralisWeb3Api();
 	const [collectionNo, setCollectionNo] = useState(0);
 	const [yourItemList, setYourItemList] = useState([]);
 	const [ctrItemList, setCtrItemList] = useState([]);
-	const {
-		isAuthenticated,
-		user,
-		isAuthenticating,
-		authenticate,
-		logout,
-		isLoggingOut,
-		isInitialized,
-	} = useMoralis();
+	const { isAuthenticated, user, authenticate, logout, isInitialized } =
+		useMoralis();
 
-	useEffect(() => {
-		const addChain = async () => {
-			try {
-				await window.ethereum.request({
-					method: "wallet_switchEthereumChain",
-					params: [{ chainId: "0x4" }],
-				});
-			} catch (Exeption) {
-				console.log("Rinkeby Network has already been connected.");
-			} finally {
-			}
-		};
-		addChain();
-	}, []);
+	console.log(exchangeContractAddr);
+	// useEffect(() => {
+	// const addChain = async () => {
+	// 	try {
+	// 		await window.ethereum.request({
+	// 			method: "wallet_switchEthereumChain",
+	// 			params: [{ chainId: "0x4" }],
+	// 		});
+	// 	} catch (Exeption) {
+	// 		console.log("mumbai Network has already been connected.");
+	// 	} finally {
+	// 	}
+	// };
+	// addChain();
+	// }, []);
 
 	useEffect(() => {
 		const fetchNFT = async () => {
 			const options = {
-				chain: "rinkeby",
-				address: contractAddress,
+				chain: "matic",
+				address: exchangeContractAddr,
 			};
 			const polygonNFTs = await Web3Api.account.getNFTs(options);
 			console.log(polygonNFTs);
@@ -48,7 +42,7 @@ export default function Home() {
 
 		const fetchNFTyours = async () => {
 			const options = {
-				chain: "rinkeby",
+				chain: "matic",
 				address: user?.get("ethAddress"),
 			};
 			const tmpCtrItemList = await Web3Api.account.getNFTs(options);
