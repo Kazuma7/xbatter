@@ -1,6 +1,6 @@
 import Image from "next/image";
 import exchangeAbi from "../contracts/ERC721Exchange.json";
-const exchangeAddr = "0x63e617726AB4172D48168ffb510F6571Ac2b5247";
+const exchangeContractAddr = process.env.NEXT_PUBLIC_EXCHANGE_CONTRACT;
 const defaultAbi = [
 	"function approve(address to, uint256 tokenId) public virtual override",
 ];
@@ -12,7 +12,11 @@ const Card = ({ image, c_name, name, cntrAddr, cntrTokenId, menuFlg }) => {
 		const provider = new ethers.providers.Web3Provider(window.ethereum);
 		const accounts = await provider.send("eth_requestAccounts", []);
 		const signer = provider.getSigner();
-		const contract = new ethers.Contract(exchangeAddr, exchangeAbi, signer);
+		const contract = new ethers.Contract(
+			exchangeContractAddr,
+			exchangeAbi,
+			signer
+		);
 
 		contract.withdrawToken(cntrAddr, cntrTokenId, {
 			gasLimit: "500000",
@@ -29,7 +33,7 @@ const Card = ({ image, c_name, name, cntrAddr, cntrTokenId, menuFlg }) => {
 		console.log(cntrAddr);
 		console.log(cntrTokenId);
 
-		nftContract.approve(exchangeAddr, cntrTokenId, {
+		nftContract.approve(exchangeContractAddr, cntrTokenId, {
 			gasLimit: "500000",
 		});
 
@@ -37,7 +41,11 @@ const Card = ({ image, c_name, name, cntrAddr, cntrTokenId, menuFlg }) => {
 		const provider = new ethers.providers.Web3Provider(window.ethereum);
 		const accounts = await provider.send("eth_requestAccounts", []);
 		const signer = provider.getSigner();
-		const contract = new ethers.Contract(exchangeAddr, exchangeAbi, signer);
+		const contract = new ethers.Contract(
+			exchangeContractAddr,
+			exchangeAbi,
+			signer
+		);
 
 		contract.depositToken(cntrAddr, cntrTokenId, {
 			gasLimit: "500000",
