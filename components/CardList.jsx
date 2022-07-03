@@ -9,7 +9,7 @@ const CardList = ({ data, menuFlg }) => {
 						<Card
 							image={nft.image ? nft.image : "/images/noimage.png"}
 							c_name={nft.name ? nft.name : "unknown"}
-							name={nft.metadata ? nft.metadata.name : "unknown"}
+							name={nft.metadata ? nft.metadata.name : ""}
 							price={0.01}
 							cntrAddr={nft.token_address ? nft.token_address : ""}
 							cntrTokenId={nft.token_id ? nft.token_id : ""}
