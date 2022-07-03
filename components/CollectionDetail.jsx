@@ -1,7 +1,12 @@
 import CardList from "../components/CardList";
 import Collection from "../components/Collection";
+import exchangeAbi from "../contracts/ERC721Exchange.json";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
+const exchangeContractAddr = process.env.NEXT_PUBLIC_EXCHANGE_CONTRACT;
+import { useMoralis } from "react-moralis";
 
 const CollectionDetail = ({
 	changeState,
@@ -16,28 +21,71 @@ const CollectionDetail = ({
 	const [yourTicketAmount, setYourTicketAmount] = useState(0);
 	const [selCollectionItemList, setSelCollectionItemList] = useState();
 	const [yourTicketList, setYourTicketList] = useState();
+	const { user } = useMoralis();
+	const [selCollectionTicketAddr, setSelCollectionTicketAddr] = useState();
+
+	const selCollectionAddr = collectionList[selCollectionNo].cAddr;
 
 	useEffect(() => {
-		//所有してるNFTから特定のNFTをフィルター
-		const tmpYourItemListFilter = yourItemList.result.filter(filterCollection);
-		setYourItemListFilter(tmpYourItemListFilter);
+		const fetchYourItemList = async () => {
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			const accounts = await provider.send("eth_requestAccounts", []);
+			const signer = provider.getSigner();
+			const contract = new ethers.Contract(
+				exchangeContractAddr,
+				exchangeAbi,
+				signer
+			);
+			const tmpSelCollectionTicketAddr = await contract.getTicketAddress(
+				selCollectionAddr
+			);
+			// console.log(selCollectionTicketAddr);
+			setSelCollectionTicketAddr(tmpSelCollectionTicketAddr);
 
-		//所有してるNFTから特定のNFTのチケットをフィルター
-		const tmpYourTicketList = yourItemList.result.filter(
-			filterCollectionTicket
-		);
-		setYourTicketList(tmpYourTicketList);
-		const tmpYourTicketAmount = tmpYourTicketList.length;
-		setYourTicketAmount(tmpYourTicketAmount);
-	}, [yourItemList]);
+			const tmpYourTicketAmount = await contract.balanceOfTicket(
+				selCollectionAddr,
+				user?.get("ethAddress")
+			);
+			setYourTicketAmount(tmpYourTicketAmount.toString());
+
+			if (selCollectionTicketAddr) {
+				//所有してるNFTから特定のNFTをフィルター
+				const tmpYourItemListFilter =
+					yourItemList.result.filter(filterCollection);
+				setYourItemListFilter(tmpYourItemListFilter);
+
+				//所有してるNFTから特定のNFTのチケットをフィルター
+				const tmpYourTicketList = yourItemList.result.filter(
+					filterCollectionTicket
+				);
+				setYourTicketList(tmpYourTicketList);
+			}
+		};
+		fetchYourItemList();
+	}, [yourItemList, selCollectionTicketAddr]);
 
 	useEffect(() => {
-		//ステーキングしてあるNFTから特定のNFTをフィルター
-		const tmpSelCollectionItemList =
-			ctrItemList.result.filter(filterCollection);
-		setSelCollectionItemList(tmpSelCollectionItemList);
-		const tmpStakeAmount = tmpSelCollectionItemList.length;
-		setStakeAmount(tmpStakeAmount);
+		const fetchCtrItemList = async () => {
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			const accounts = await provider.send("eth_requestAccounts", []);
+			const signer = provider.getSigner();
+			const contract = new ethers.Contract(
+				exchangeContractAddr,
+				exchangeAbi,
+				signer
+			);
+
+			const tmpStakeAmount = await contract.totalTicketSupply(
+				selCollectionAddr
+			);
+
+			//ステーキングしてあるNFTから特定のNFTをフィルター
+			const tmpSelCollectionItemList =
+				ctrItemList.result.filter(filterCollection);
+			setSelCollectionItemList(tmpSelCollectionItemList);
+			setStakeAmount(tmpStakeAmount.toString());
+		};
+		fetchCtrItemList();
 	}, [ctrItemList]);
 
 	const onChnageMenu = () => {
@@ -50,19 +98,16 @@ const CollectionDetail = ({
 
 	//特定のNFTフィルター
 	const filterCollection = (item) => {
-		if (
-			item.token_address.toUpperCase() ==
-			"0xea03e1b9022770b4c9b061be263d601f1fd1e22e".toUpperCase()
-		) {
+		if (item.token_address.toUpperCase() == selCollectionAddr.toUpperCase()) {
 			return true;
 		}
 	};
 
 	//特定のNFTチケットフィルター
 	const filterCollectionTicket = (item) => {
+		// console.log(selCollectionTicketAddr);
 		if (
-			item.token_address.toUpperCase() ==
-			"0xd6B4239e23e3801c1adA8383830A59d27fdCb7Ec".toUpperCase()
+			item.token_address.toUpperCase() == selCollectionTicketAddr.toUpperCase()
 		) {
 			return true;
 		}
@@ -109,10 +154,14 @@ const CollectionDetail = ({
 						<CardList data={ctrItemList.result} menuFlg={menuIsOpen} />
 
 						<div className="flex justify-between bg-slate-100 px-10 py-10">
-							<div>Creator</div>
+							<div></div>
 							<div className="flex justify-center">
-								<div>Github</div>
-								<div>discord</div>
+								<div>
+									<FontAwesomeIcon className="px-2" icon={faGithub} />
+								</div>
+								<div>
+									<FontAwesomeIcon className="px-2" icon={faDiscord} />
+								</div>
 							</div>
 						</div>
 					</div>
@@ -138,10 +187,14 @@ const CollectionDetail = ({
 						<CardList data={yourItemListFilter} menuFlg={menuIsOpen} />
 
 						<div className="flex justify-between bg-slate-100 px-10 py-10">
-							<div>Creator</div>
+							<div></div>
 							<div className="flex justify-center">
-								<div>Github</div>
-								<div>discord</div>
+								<div>
+									<FontAwesomeIcon className="px-2" icon={faGithub} />
+								</div>
+								<div>
+									<FontAwesomeIcon className="px-2" icon={faDiscord} />
+								</div>
 							</div>
 						</div>
 					</div>
