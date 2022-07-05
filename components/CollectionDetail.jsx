@@ -127,8 +127,8 @@ const CollectionDetail = ({
         </div>
         {menuIsOpen ? (
           <div className="w-full  ">
-            <div className="flex justify-between items-center mx-10 my-10 ">
-              <div className=" text-3xl font-bold">
+            <div className="flex justify-between items-center mx-10 mt-10 ">
+              <div className=" text-3xl font-bold pr-6 ">
                 {collectionList[selCollectionNo].cName}
               </div>
               <button
@@ -138,8 +138,17 @@ const CollectionDetail = ({
                 Exchange Ticket
               </button>
             </div>
+            <div className="text-blue-500 cursor-pointer pl-1 mt-2 mx-10">
+              <a
+                href="https://verylong-tinydinos.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                mint page
+              </a>
+            </div>
 
-            <div className="grid grid-cols-2 border bg-white mx-10 my-10 py-4 rounded-lg bg-opacity-70  shadow-md">
+            <div className="grid grid-cols-2 border bg-white mx-10 mb-10 mt-6 py-4 rounded-lg bg-opacity-70  shadow-md">
               <div className="mx-auto">
                 <div className="text-center pb-2">Stake NFT Amount</div>
                 <div className="text-center text-3xl font-bold">

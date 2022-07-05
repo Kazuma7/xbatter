@@ -69,7 +69,7 @@ export default function Home() {
               className="rounded-lg object-cover absolute left-0 m-auto w-full h-full"
             />
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center gap-4">
             <a className="rounded-full bg-gray-100 hover:bg-gray-200 px-4 py-1 text-sm text-gray-500 cursor-pointer">
               are you collection owner?
             </a>
@@ -117,7 +117,7 @@ export default function Home() {
               className="rounded-lg object-cover absolute left-0 m-auto w-full h-full"
             />
           </div>
-          <div className="flex justify-center items-center gap-2">
+          <div className="flex justify-center items-center gap-4">
             <a className="rounded-full bg-gray-100 hover:bg-gray-200 px-4 py-1 text-sm text-gray-500 cursor-pointer">
               are you collection owner?
             </a>
