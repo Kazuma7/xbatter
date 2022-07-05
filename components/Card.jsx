@@ -38,6 +38,7 @@ const Card = ({ image, c_name, name, cntrAddr, cntrTokenId, menuFlg }) => {
 
     console.log(cntrAddr);
     console.log(cntrTokenId);
+    console.log(exchangeContractAddr);
 
     nftContract.approve(exchangeContractAddr, cntrTokenId, {
       gasLimit: "500000",

@@ -1,7 +1,6 @@
 [
-	{
-		"cName": "VeryLongTinyDinos",
-		"cAddr": "0x8f87c1d59c72493595f005497d7f54cd77b466b2",
-		"cTokenId": "1"
-	}
+  {
+    "cName": "VeryLongTinyDinos",
+    "cAddr": "0x8f87c1d59c72493595f005497d7f54cd77b466b2"
+  }
 ]

@@ -60,12 +60,12 @@ export default function Home() {
     return (
       <div className="h-screen w-screen bg-white">
         <div className="flex justify-between items-center px-10 h-[60px] border-b text-lg text-gray-700">
-          <div className="font-Inter-Medium">
+          <div className="font-Inter-Medium pt-2 p-14 relative">
             <Image
               src={"/images/xbatter.svg"}
               alt={`画像`}
-              width={300}
-              height={300}
+              layout="fill"
+              objectFit="contain"
               className="rounded-lg object-cover absolute left-0 m-auto w-full h-full"
             />
           </div>
